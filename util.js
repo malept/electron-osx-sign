@@ -43,8 +43,8 @@ module.exports.spawnAsync = function (command, args, options) {
 
   return new Promise(function (resolve, reject) {
     const spawned = child.spawn(command, args, options)
-    spawned.stdout.on('data', data => console.log('STDOUT:', data))
-    spawned.stderr.on('data', data => console.log('STDERR:', data))
+    spawned.stdout.on('data', data => console.log('STDOUT:', data.toString()))
+    spawned.stderr.on('data', data => console.log('STDERR:', data.toString()))
     spawned.on('error', err => {
       debuglog(`Error executing "${command}":`, err)
       reject(err)
