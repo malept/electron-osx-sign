@@ -147,6 +147,12 @@ function signApplicationAsync (opts) {
         '--sign', opts.identity.hash || opts.identity.name,
         '--force'
       ]
+      if (opts.verbose) {
+        args.push('--verbose')
+        if (typeof opts.verbose !== 'boolean') {
+          args.push(opts.verbose)
+        }
+      }
       if (opts.keychain) {
         args.push('--keychain', opts.keychain)
       }
