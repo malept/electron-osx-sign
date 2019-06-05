@@ -15,6 +15,7 @@ const debuglog = util.debuglog
 const debugwarn = util.debugwarn
 const getAppContentsPath = util.getAppContentsPath
 const execFileAsync = util.execFileAsync
+const spawnAsync = util.spawnAsync
 const validateOptsAppAsync = util.validateOptsAppAsync
 const validateOptsPlatformAsync = util.validateOptsPlatformAsync
 const walkAsync = util.walkAsync
@@ -181,11 +182,11 @@ function signApplicationAsync (opts) {
             return
           }
           debuglog('Signing... ' + filePath)
-          return execFileAsync('codesign', args.concat('--entitlements', opts['entitlements-inherit'], filePath))
+          return spawnAsync('codesign', args.concat('--entitlements', opts['entitlements-inherit'], filePath))
         })
           .then(function () {
             debuglog('Signing... ' + opts.app)
-            return execFileAsync('codesign', args.concat('--entitlements', opts.entitlements, opts.app))
+            return spawnAsync('codesign', args.concat('--entitlements', opts.entitlements, opts.app))
           })
       } else {
         // Otherwise normally
@@ -195,11 +196,11 @@ function signApplicationAsync (opts) {
             return
           }
           debuglog('Signing... ' + filePath)
-          return execFileAsync('codesign', args.concat(filePath))
+          return spawnAsync('codesign', args.concat(filePath))
         })
           .then(function () {
             debuglog('Signing... ' + opts.app)
-            return execFileAsync('codesign', args.concat(opts.app))
+            return spawnAsync('codesign', args.concat(opts.app))
           })
       }
 

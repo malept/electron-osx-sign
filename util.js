@@ -35,6 +35,29 @@ const removePassword = function (input) {
   })
 }
 
+module.exports.spawnAsync = function (command, args, options) {
+  const spawnOptions = Object.assign({}, options, { stdio: 'inherit' })
+  if (debuglog.enabled) {
+    // debuglog('Executing...', file, args && Array.isArray(args) ? removePassword(args.join(' ')) : '')
+    debuglog('Executing...', command, args && Array.isArray(args) ? args.join(' ') : '')
+  }
+
+  return new Promise(function (resolve, reject) {
+    const spawned = child.spawn(command, args, spawnOptions)
+    spawned.on('error', err => {
+      debuglog(`Error executing "${command}":`, err)
+      reject(err)
+    })
+    spawned.on('exit', (code, signal) => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject([code, signal])
+      }
+    })
+  })
+}
+
 /** @function */
 module.exports.execFileAsync = function (file, args, options) {
   if (debuglog.enabled) {
