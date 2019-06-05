@@ -148,9 +148,10 @@ function signApplicationAsync (opts) {
         '--force'
       ]
       if (opts.verbose) {
-        args.push('--verbose')
-        if (typeof opts.verbose !== 'boolean') {
-          args.push(opts.verbose)
+        if (typeof opts.verbose === 'boolean') {
+          args.push('--verbose')
+        } else {
+          args.push(`--verbose=${opts.verbose}`)
         }
       }
       if (opts.keychain) {
