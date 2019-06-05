@@ -109,7 +109,7 @@ function verifySignApplicationAsync (opts) {
         return execFileAsync('spctl', [
           '--assess',
           '--type', 'execute',
-          '--verbose',
+          '--verbose=4',
           '--ignore-cache',
           '--no-cache',
           opts.app
