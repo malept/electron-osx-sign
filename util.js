@@ -36,14 +36,15 @@ const removePassword = function (input) {
 }
 
 module.exports.spawnAsync = function (command, args, options) {
-  const spawnOptions = Object.assign({}, options, { stdio: 'inherit' })
   if (debuglog.enabled) {
     // debuglog('Executing...', file, args && Array.isArray(args) ? removePassword(args.join(' ')) : '')
     debuglog('Executing...', command, args && Array.isArray(args) ? args.join(' ') : '')
   }
 
   return new Promise(function (resolve, reject) {
-    const spawned = child.spawn(command, args, spawnOptions)
+    const spawned = child.spawn(command, args, options)
+    spawned.stdout.on('data', data => console.log('STDOUT:', data))
+    spawned.stderr.on('data', data => console.log('STDERR:', data))
     spawned.on('error', err => {
       debuglog(`Error executing "${command}":`, err)
       reject(err)
